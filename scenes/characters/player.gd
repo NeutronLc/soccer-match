@@ -1,23 +1,54 @@
 class_name Player
 extends CharacterBody2D
 
-enum ControlScheme {CPU, P1,P2}
 
+#signal swap_requested(player: Player)
+
+#const BALL_CONTROL_HEIGHT_MAX := 10.0
+#const CONTROL_SCHEME_MAP : Dictionary = {
+	#ControlScheme.CPU: preload("res://assets/art/props/cpu.png"),
+	#ControlScheme.P1: preload("res://assets/art/props/1p.png"),
+	#ControlScheme.P2: preload("res://assets/art/props/2p.png"),
+#}
+#const GRAVITY := 8.0
+#const WALK_ANIM_THRESHOLD := 0.6
+
+enum ControlScheme {CPU, P1, P2}
+#enum Role {GOALIE, DEFENSE, MIDFIELD, OFFENSE}
+#enum SkinColor {LIGHT, MEDIUM, DARK}
+enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING, RESETING}
+
+#@export var ball : Ball
 @export var control_scheme : ControlScheme
+#@export var own_goal : Goal
+#@export var power : float
 @export var speed : float
+#@export var target_goal : Goal
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var player_sprite: Sprite2D = %PlayerSprite
 
+#var ai_behavior_factory := AIBehaviorFactory.new()
+var country := ""
+#var current_ai_behavior : AIBehavior = null
+var current_state: PlayerState = null
+var fullname := ""
 var heading := Vector2.RIGHT
+var height := 0.0
+var height_velocity := 0.0
+var kickoff_position := Vector2.ZERO
+#var role := Player.Role.MIDFIELD
+#var skin_color := Player.SkinColor.MEDIUM
+var spawn_position := Vector2.ZERO
+var state_factory := PlayerStateFactory.new()
+var weight_on_duty_steering := 0.0
+
+
+func _ready() -> void:
+	switch_state(State.MOVING)
+
 
 func _process(_delta: float) -> void:
-	if control_scheme == ControlScheme.CPU:
-		pass # process AI movement
-	else:
-		handle_human_movement()	
-	set_movement_animation()
-	set_heading()
 	flip_sprites()
 	move_and_slide()
 
@@ -25,6 +56,17 @@ func _process(_delta: float) -> void:
 func handle_human_movement() -> void:
 	var direction := KeyUtils.get_input_vector(control_scheme)
 	velocity = direction * speed
+
+
+func switch_state(state: State) -> void:
+	if current_state != null:
+		current_state.queue_free()
+	current_state = state_factory.get_fresh_state(state)
+	#current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, tackle_damage_emitter_area, current_ai_behavior)
+	current_state.setup(self, animation_player)
+	current_state.state_transition_requested.connect(switch_state.bind())
+	current_state.name = "PlayerStateMachine: " + str(state)
+	call_deferred("add_child", current_state)
 
 
 func set_movement_animation() -> void:
