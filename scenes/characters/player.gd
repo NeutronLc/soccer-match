@@ -18,10 +18,10 @@ enum ControlScheme {CPU, P1, P2}
 #enum SkinColor {LIGHT, MEDIUM, DARK}
 enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEADER, VOLLEY_KICK, BICYCLE_KICK, CHEST_CONTROL, HURT, DIVING, CELEBRATING, MOURNING, RESETING}
 
-#@export var ball : Ball
+@export var ball : Ball
 @export var control_scheme : ControlScheme
 #@export var own_goal : Goal
-#@export var power : float
+@export var power : float
 @export var speed : float
 #@export var target_goal : Goal
 
@@ -93,3 +93,7 @@ func flip_sprites() -> void:
 		player_sprite.flip_h = true
 	
 	#player_sprite.flip_h = true if heading == Vector2.LEFT else false
+
+
+func has_ball() -> bool:
+	return ball.carrier == self
