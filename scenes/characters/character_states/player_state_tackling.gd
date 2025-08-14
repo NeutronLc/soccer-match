@@ -13,9 +13,9 @@ func _enter_tree() -> void:
 	#tackle_damage_emitter_area.monitoring = true
 	time_start_tackle = Time.get_ticks_msec()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if Time.get_ticks_msec() - time_start_tackle > DURATION_PRIOR_RECOVERY:
-		state_transition_requested.emit(Player.State.MOVING)
+		state_transition_requested.emit(Player.State.RECOVERING)
 	#if not is_tackle_complete:
 		#player.velocity = player.velocity.move_toward(Vector2.ZERO, delta * GROUND_FRICTION)
 		#if player.velocity == Vector2.ZERO:

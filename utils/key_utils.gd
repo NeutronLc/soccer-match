@@ -21,15 +21,15 @@ const ACTIONS_MAP : Dictionary = {
 	},
 }
 
-static func get_input_vector(scheme: Player.ControlScheme) -> Vector2:
+func get_input_vector(scheme: Player.ControlScheme) -> Vector2:
 	var map : Dictionary = ACTIONS_MAP[scheme]
 	return Input.get_vector(map[Action.LEFT], map[Action.RIGHT], map[Action.UP], map[Action.DOWN])
 
-static func is_action_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
+func is_action_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
 	return Input.is_action_pressed(ACTIONS_MAP[scheme][action])
 
-static func is_action_just_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
+func is_action_just_pressed(scheme: Player.ControlScheme, action: Action) -> bool:
 	return Input.is_action_just_pressed(ACTIONS_MAP[scheme][action])
 
-static func is_action_just_released(scheme: Player.ControlScheme, action: Action) -> bool:
+func is_action_just_released(scheme: Player.ControlScheme, action: Action) -> bool:
 	return Input.is_action_just_released(ACTIONS_MAP[scheme][action])
