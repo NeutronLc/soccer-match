@@ -4,6 +4,9 @@ extends AnimatableBody2D
 
 enum State {CARRIED, FREEFORM, SHOT}
 
+@export var friction_air : float
+@export var friction_ground : float
+
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var ball_sprite: Sprite2D = %BallSprite
 @onready var player_detection_area: Area2D = %PlayerDetectionArea
@@ -11,6 +14,7 @@ enum State {CARRIED, FREEFORM, SHOT}
 var carrier : Player = null
 var current_state : BallState = null
 var height := 0.0
+var height_velocity := 0.0
 var state_factory := BallStateFactory.new()
 var velocity := Vector2.ZERO
 
