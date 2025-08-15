@@ -7,8 +7,10 @@ const OFFSET_FROM_PLAYER := Vector2(10, 4)
 
 var dribble_time := 0.0
 
+
 func _enter_tree() -> void:
 	assert(carrier != null)
+
 
 func _process(delta: float) -> void:
 	var vx := 0.0

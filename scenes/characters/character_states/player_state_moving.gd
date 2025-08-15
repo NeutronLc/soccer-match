@@ -1,6 +1,7 @@
 class_name PlayerStateMoving
 extends PlayerState
 
+
 func _process(_delta: float) -> void:
 	if player.control_scheme == Player.ControlScheme.CPU:
 		pass # process AI movement
@@ -18,7 +19,7 @@ func handle_human_movement() -> void:
 		#teammate_detection_area.rotation = player.velocity.angle()
 	
 	if player.has_ball() and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
-		state_transition_requested.emit(Player.State.PREPPING_SHOT)
+		transition_state(Player.State.PREPPING_SHOT)
 	
 	#if player.velocity != Vector2.ZERO and KeyUtils.is_action_just_pressed(player.control_scheme, KeyUtils.Action.SHOOT):
 		#state_transition_requested.emit(Player.State.TACKLING)
@@ -45,11 +46,14 @@ func handle_human_movement() -> void:
 		#elif player.velocity != Vector2.ZERO:
 			#state_transition_requested.emit(Player.State.TACKLING)
 
+
 #func can_carry_ball() -> bool:
 	#return player.role != Player.Role.GOALIE
-#
+
+
 #func can_teammate_pass_ball() -> bool:
 	#return ball.carrier != null and ball.carrier.country == player.country and ball.carrier.control_scheme == Player.ControlScheme.CPU
-	#
+
+
 #func can_pass() -> bool:
 	#return true

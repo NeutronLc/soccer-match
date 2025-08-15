@@ -1,2 +1,38 @@
 class_name BallStateShot
 extends BallState
+
+const DURATION_SHOT := 1000
+const SHOT_HEIGHT := 5
+const SHOT_SPRITE_SCALE := 0.8
+
+var time_since_shot := Time.get_ticks_msec()
+
+
+func _enter_tree() -> void:
+	if ball.velocity.x >= 0:
+		animation_player.play("roll")
+		animation_player.advance(0)
+	else:
+		animation_player.play_backwards("roll")
+		animation_player.advance(0)
+	#set_ball_animation_from_velocity()
+	sprite.scale.y = SHOT_SPRITE_SCALE
+	ball.height = SHOT_HEIGHT
+	#time_since_shot = Time.get_ticks_msec()
+	#shot_particles.emitting = true
+	#GameEvents.impact_received.emit(ball.position, true)
+
+
+func _process(delta: float) -> void:
+	ball.move_and_collide(ball.velocity * delta)
+	if Time.get_ticks_msec() - time_since_shot > DURATION_SHOT:
+		state_transition_requested.emit(Ball.State.FREEFORM)
+		#transition_state(Ball.State.FREEFORM)
+	else:
+		ball.move_and_collide(ball.velocity * delta)
+		#move_and_bounce(delta)
+
+
+func _exit_tree() -> void:
+	sprite.scale.y = 1.0
+	#shot_particles.emitting = false

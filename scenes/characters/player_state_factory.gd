@@ -2,6 +2,7 @@ class_name PlayerStateFactory
 
 var states : Dictionary
 
+
 func _init() -> void:
 	states = {
 		#Player.State.BICYCLE_KICK: PlayerStateBicycleKick,
@@ -20,6 +21,7 @@ func _init() -> void:
 		Player.State.TACKLING: PlayerStateTackling,
 		#Player.State.VOLLEY_KICK: PlayerStateVolleyKick,
 	}
+
 
 func get_fresh_state(state: Player.State) -> PlayerState:
 	assert(states.has(state), "state doesn't exist!")
