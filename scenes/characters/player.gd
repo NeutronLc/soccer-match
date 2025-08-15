@@ -27,6 +27,7 @@ enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEAD
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
 @onready var player_sprite: Sprite2D = %PlayerSprite
+@onready var teammate_detection_area: Area2D = %TeammateDetectionArea
 
 #var ai_behavior_factory := AIBehaviorFactory.new()
 var country := ""
@@ -63,7 +64,7 @@ func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.ne
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
 	#current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, tackle_damage_emitter_area, current_ai_behavior)
-	current_state.setup(self, state_data, animation_player, ball)
+	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
 	call_deferred("add_child", current_state)
