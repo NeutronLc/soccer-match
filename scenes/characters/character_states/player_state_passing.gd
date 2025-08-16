@@ -10,18 +10,15 @@ func _enter_tree() -> void:
 func on_animation_complete() -> void:
 	#var pass_target := state_data.pass_target
 	var pass_target := find_teammate_in_view()
-	print(pass_target)
-	var target := Vector2(10, 10)
-	ball.pass_to(target)
 	#if pass_target == null:
 		#pass_target = find_teammate_in_view()
-	#if pass_target == null:
-		#ball.pass_to(ball.position + player.heading * player.speed)
-	#else:
+	if pass_target == null:
+		ball.pass_to(ball.position + player.heading * player.speed)
+	else:
 		#var direction := player.position.direction_to(pass_target.position)
 		#if sign(player.heading.x) != sign(direction.x):
 			#player.heading *= -1
-		#ball.pass_to(pass_target.position + pass_target.velocity * 0.8)
+		ball.pass_to(pass_target.position + pass_target.velocity * 0.8)
 	transition_state(Player.State.MOVING)
 
 
