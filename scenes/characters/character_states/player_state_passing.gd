@@ -11,6 +11,8 @@ func on_animation_complete() -> void:
 	#var pass_target := state_data.pass_target
 	var pass_target := find_teammate_in_view()
 	print(pass_target)
+	var target := Vector2(10, 10)
+	ball.pass_to(target)
 	#if pass_target == null:
 		#pass_target = find_teammate_in_view()
 	#if pass_target == null:

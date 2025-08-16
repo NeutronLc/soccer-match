@@ -41,3 +41,12 @@ func shoot(shot_velocity : Vector2) -> void:
 	velocity = shot_velocity
 	carrier = null
 	switch_state(Ball.State.SHOT)
+
+
+func pass_to(destination: Vector2) -> void:
+	var direction := position.direction_to(destination)
+	var distance := position.distance_to(destination)
+	var intensity := sqrt(2 * distance * friction_ground)
+	velocity = intensity * direction
+	carrier = null
+	switch_state(Ball.State.FREEFORM)
