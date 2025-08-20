@@ -1,7 +1,7 @@
 class_name PlayerStateHeader
 extends PlayerState
 
-const BALL_HEIGHT_MIN := 5.0
+const BALL_HEIGHT_MIN := 10.0
 const BALL_HEIGHT_MAX := 30.0
 const BONUS_POWER := 1.3
 const HEIGHT_START := 0.1
@@ -18,10 +18,9 @@ func _enter_tree() -> void:
 func on_ball_entered(contact_ball: Ball) -> void:
 	if contact_ball.can_air_connect(BALL_HEIGHT_MIN, BALL_HEIGHT_MAX):
 		#SoundPlayer.play(SoundPlayer.Sound.POWERSHOT)
-		#var destination := player.target_goal.get_random_target_position()
-		#var direction := contact_ball.position.direction_to(destination)
-		#contact_ball.shoot(direction * player.power * BONUS_POWER)
-		contact_ball.shoot(player.velocity.normalized() * player.power * BONUS_POWER)
+		var destination := player.target_goal.get_random_target_position()
+		var direction := contact_ball.position.direction_to(destination)
+		contact_ball.shoot(direction * player.power * BONUS_POWER)
 
 
 func _process(_delta: float) -> void:
