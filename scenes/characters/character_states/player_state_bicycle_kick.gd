@@ -5,6 +5,7 @@ const BALL_HEIGHT_MIN := 5.0
 const BALL_HEIGHT_MAX := 25.0
 const BONUS_POWER := 2.0
 
+
 func _enter_tree() -> void:
 	animation_player.play("bicycle_kick")
 	ball_detection_area.body_entered.connect(on_ball_entered.bind())

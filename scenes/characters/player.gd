@@ -4,7 +4,7 @@ extends CharacterBody2D
 
 #signal swap_requested(player: Player)
 
-#const BALL_CONTROL_HEIGHT_MAX := 10.0
+const BALL_CONTROL_HEIGHT_MAX := 10.0
 const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.CPU: preload("res://assets/art/props/cpu.png"),
 	ControlScheme.P1: preload("res://assets/art/props/1p.png"),
@@ -126,3 +126,8 @@ func set_control_texture() -> void:
 func on_animation_complete() -> void:
 	if current_state != null:
 		current_state.on_animation_complete()
+
+
+func control_ball() -> void:
+	if ball.height > BALL_CONTROL_HEIGHT_MAX:
+		switch_state(Player.State.CHEST_CONTROL)

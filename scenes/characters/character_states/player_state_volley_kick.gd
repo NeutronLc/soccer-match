@@ -5,6 +5,7 @@ const BALL_HEIGHT_MIN := 1.0
 const BALL_HEIGHT_MAX := 20.0
 const BONUS_POWER := 1.5
 
+
 func _enter_tree() -> void:
 	animation_player.play("volley_kick")
 	ball_detection_area.body_entered.connect(on_ball_entered.bind())
