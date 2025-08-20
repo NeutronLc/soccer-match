@@ -10,7 +10,7 @@ const CONTROL_SCHEME_MAP : Dictionary = {
 	ControlScheme.P1: preload("res://assets/art/props/1p.png"),
 	ControlScheme.P2: preload("res://assets/art/props/2p.png"),
 }
-#const GRAVITY := 8.0
+const GRAVITY := 8.0
 #const WALK_ANIM_THRESHOLD := 0.6
 
 enum ControlScheme {CPU, P1, P2}
@@ -26,6 +26,7 @@ enum State {MOVING, TACKLING, RECOVERING, PREPPING_SHOT, SHOOTING, PASSING, HEAD
 #@export var target_goal : Goal
 
 @onready var animation_player: AnimationPlayer = %AnimationPlayer
+@onready var ball_detection_area: Area2D = %BallDetectionArea
 @onready var control_sprite: Sprite2D = %ControlSprite
 @onready var player_sprite: Sprite2D = %PlayerSprite
 @onready var teammate_detection_area: Area2D = %TeammateDetectionArea
@@ -51,9 +52,10 @@ func _ready() -> void:
 	switch_state(State.MOVING)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	flip_sprites()
 	set_sprite_visibility()
+	process_gravity(delta)
 	move_and_slide()
 
 
@@ -67,7 +69,7 @@ func switch_state(state: State, state_data: PlayerStateData = PlayerStateData.ne
 		current_state.queue_free()
 	current_state = state_factory.get_fresh_state(state)
 	#current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area, own_goal, target_goal, tackle_damage_emitter_area, current_ai_behavior)
-	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area)
+	current_state.setup(self, state_data, animation_player, ball, teammate_detection_area, ball_detection_area)
 	current_state.state_transition_requested.connect(switch_state.bind())
 	current_state.name = "PlayerStateMachine: " + str(state)
 	call_deferred("add_child", current_state)
@@ -81,6 +83,15 @@ func set_movement_animation() -> void:
 		#animation_player.play("walk")
 	else:
 		animation_player.play("run")
+
+
+func process_gravity(delta: float) -> void:
+	if height > 0:
+		height_velocity -= GRAVITY * delta
+		height += height_velocity
+		if height <= 0:
+			height = 0
+	player_sprite.position = Vector2.UP * height
 
 
 func set_heading() -> void:

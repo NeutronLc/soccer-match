@@ -25,14 +25,14 @@ func _process(_delta: float) -> void:
 		position = ball.position
 		position_smoothing_speed = SMOOTHING_BALL_DEFAULT
 
-	if is_shaking and Time.get_ticks_msec() - time_start_shake < DURATION_SHAKE:
-		offset = Vector2(randf_range(-SHAKE_INTENSITY, SHAKE_INTENSITY), randf_range(-SHAKE_INTENSITY, SHAKE_INTENSITY))
-	else:
-		is_shaking = false
-		offset = Vector2.ZERO
-
-
-func on_impact_received(_impact_position: Vector2, is_high_impact: bool) -> void:
-	if is_high_impact:
-		is_shaking = true
-		time_start_shake = Time.get_ticks_msec()
+	#if is_shaking and Time.get_ticks_msec() - time_start_shake < DURATION_SHAKE:
+		#offset = Vector2(randf_range(-SHAKE_INTENSITY, SHAKE_INTENSITY), randf_range(-SHAKE_INTENSITY, SHAKE_INTENSITY))
+	#else:
+		#is_shaking = false
+		#offset = Vector2.ZERO
+#
+#
+#func on_impact_received(_impact_position: Vector2, is_high_impact: bool) -> void:
+	#if is_high_impact:
+		#is_shaking = true
+		#time_start_shake = Time.get_ticks_msec()

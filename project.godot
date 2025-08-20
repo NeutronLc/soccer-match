@@ -13,6 +13,7 @@ config_version=5
 config/name="Soccer Match"
 run/main_scene="uid://d1mnuaxdid33s"
 config/features=PackedStringArray("4.4", "GL Compatibility")
+run/max_fps=60
 config/icon="res://icon.svg"
 
 [autoload]
